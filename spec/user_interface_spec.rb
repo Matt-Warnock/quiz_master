@@ -40,4 +40,39 @@ RSpec.describe UserInterface do
       expect(result).to eq('x')
     end
   end
+
+  describe '#display_question' do
+    let(:input) { StringIO.new }
+
+    it 'clears the screen before printing message' do
+      user_interface = described_class.new(input, output)
+
+      user_interface.display_question(described_class::FIRST_QUESTION)
+
+      expect(output.string).to include(described_class::CLEAR_COMMAND + described_class::FIRST_QUESTION[0])
+    end
+
+    it 'prints a question to the screen' do
+      user_interface = described_class.new(input, output)
+
+      user_interface.display_question(described_class::FIRST_QUESTION)
+
+      expect(output.string).to include(described_class::FIRST_QUESTION[0])
+    end
+
+    it 'prints answer choices to the screen' do
+      user_interface = described_class.new(input, output)
+
+      user_interface.display_question(described_class::FIRST_QUESTION)
+
+      expect(output.string).to include(%(How many members are in Gojira?
+
+a\) 3
+b\) 5
+c\) 4
+d\) 6
+
+))
+    end
+  end
 end
