@@ -42,10 +42,10 @@ RSpec.describe UserInterface do
   end
 
   describe '#display_question' do
-    let(:input) { StringIO.new }
+    let(:correct_input) { StringIO.new("c\n") }
 
     it 'clears the screen before printing message' do
-      user_interface = described_class.new(input, output)
+      user_interface = described_class.new(correct_input, output)
 
       user_interface.display_question(described_class::FIRST_QUESTION)
 
@@ -53,7 +53,7 @@ RSpec.describe UserInterface do
     end
 
     it 'prints a question to the screen' do
-      user_interface = described_class.new(input, output)
+      user_interface = described_class.new(correct_input, output)
 
       user_interface.display_question(described_class::FIRST_QUESTION)
 
@@ -61,7 +61,7 @@ RSpec.describe UserInterface do
     end
 
     it 'prints answer choices to the screen' do
-      user_interface = described_class.new(input, output)
+      user_interface = described_class.new(correct_input, output)
 
       user_interface.display_question(described_class::FIRST_QUESTION)
 
@@ -73,6 +73,33 @@ c\) 4
 d\) 6
 
 ))
+    end
+
+    it 'returns a vaild answer choice from user' do
+      user_interface = described_class.new(correct_input, output)
+
+      result = user_interface.display_question(described_class::FIRST_QUESTION)
+
+      expect(result).to eq('c')
+    end
+
+    it 'prints error message when invalid input is entered' do
+      input = StringIO.new("f\nc\n")
+      user_interface = described_class.new(input, output)
+
+      user_interface.display_question(described_class::FIRST_QUESTION)
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE +
+                                       (described_class::FIRST_QUESTION[1].length + 96).chr)
+    end
+
+    it 'keeps on asking for input until a vaild input is given' do
+      input = StringIO.new("x\nf\nc\n")
+      user_interface = described_class.new(input, output)
+
+      user_interface.display_question(described_class::FIRST_QUESTION)
+
+      expect(output.string.scan(described_class::ERROR_MESSAGE).length).to eq(2)
     end
   end
 end
