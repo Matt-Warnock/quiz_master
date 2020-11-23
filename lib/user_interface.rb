@@ -20,10 +20,8 @@ class UserInterface
     continue
   end
 
-  def display_question(question_array)
-    output.print CLEAR_COMMAND, question_array[0], "\n\n"
-    display_answer_choices(question_array)
-    output.print "\n\n"
+  def ask_question(question_array)
+    display_question(question_array)
     collect_valid_choice(question_array)
   end
 
@@ -34,6 +32,12 @@ class UserInterface
   def continue
     output.print PRESS_ANY_KEY_MESSAGE
     input.getch
+  end
+
+  def display_question(question_array)
+    output.print CLEAR_COMMAND, question_array[0], "\n\n"
+    display_answer_choices(question_array)
+    output.print "\n\n"
   end
 
   def display_answer_choices(question_array)
