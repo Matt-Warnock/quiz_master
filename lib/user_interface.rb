@@ -21,23 +21,36 @@ class UserInterface
     continue
   end
 
-  def ask_question(question_array)
-    display_question(question_array)
-    display_answer_choices(question_array) { |answer_choice| output.print answer_choice }
-    collect_valid_choice(question_array)
+  def display_question(question)
+    output.print CLEAR_COMMAND, question
   end
 
-  def display_result(question_array, result_message)
-    display_question(question_array)
+  def display_answer_choices(answers)
+    each_formated_choice(answers) { |answer_choice| output.print answer_choice }
+  end
 
-    display_answer_choices(question_array) do |answer_choice|
-      if answer_choice[0] == question_array[2]
+  def collect_valid_choice(answers)
+    max_letter_choice = (answers.length + 96).chr
+
+    loop do
+      user_input = input.gets.chomp
+      break user_input if user_input.match?(/^[a-#{max_letter_choice}]$/i)
+
+      output.print ERROR_MESSAGE + max_letter_choice
+    end
+  end
+
+  def reveal_answer(answers, correct_answer)
+    each_formated_choice(answers) do |answer_choice|
+      if answer_choice[0] == correct_answer
         output.print answer_choice.colorize(:blue)
       else
         output.print answer_choice
       end
     end
+  end
 
+  def display_result_message(result_message)
     output.puts result_message
     continue
   end
@@ -51,36 +64,20 @@ class UserInterface
     input.getch
   end
 
-  def display_question(question_array)
-    output.print CLEAR_COMMAND, question_array[0], "\n\n"
-  end
-
-  def display_answer_choices(question_array)
-    answers = question_array[1]
-
+  def each_formated_choice(answers)
+    output.print "\n\n"
     answers.each_index do |index|
-      answer_choice = format_choices(answers, index)
-      yield answer_choice
+      answer_choice = format_choice(answers, index)
+      yield answer_choice if block_given?
     end
     output.print "\n\n"
   end
 
-  def format_choices(answers, index)
+  def format_choice(answers, index)
     margin = answers.max_by(&:length).length + 5
     answer_choice = "#{(index + DECIMAL_COMPENSATOR).chr}) #{answers[index]}"
     return answer_choice.rjust(margin) + "\n" unless (index % 2).zero?
 
     answer_choice
-  end
-
-  def collect_valid_choice(question_array)
-    max_letter = (question_array[1].length + 96).chr
-
-    loop do
-      user_input = input.gets.chomp
-      break user_input if user_input.match?(/^[a-#{max_letter}]$/i)
-
-      output.print ERROR_MESSAGE + max_letter
-    end
   end
 end
