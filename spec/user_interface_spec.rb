@@ -103,6 +103,7 @@ c\) 4  d\) 6
 
   describe '#display_result' do
     let(:input) { StringIO.new('x') }
+    let(:answer) { 'c' }
 
     it 'clears the screen before printing message' do
       user_interface = described_class.new(input, output)
@@ -120,7 +121,7 @@ c\) 4  d\) 6
       expect(output.string).to include(described_class::FIRST_QUESTION[0])
     end
 
-    xit 'prints answer choices with the correct choice in blue text' do
+    it 'prints answer choices with the correct choice in blue text' do
       user_interface = described_class.new(input, output)
 
       user_interface.display_result(described_class::FIRST_QUESTION, described_class::CORRECT_MESSAGE)
@@ -128,7 +129,7 @@ c\) 4  d\) 6
       expect(output.string).to include(%(How many members are in Gojira?
 
 a\) 3  b\) 5
-\e[34m c\) 4\e[0m  d\) 6
+\e[0;34;49mc\) 4\e[0m  d\) 6
 
 ))
     end

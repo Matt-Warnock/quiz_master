@@ -23,12 +23,22 @@ class UserInterface
 
   def ask_question(question_array)
     display_question(question_array)
+    display_answer_choices(question_array) { |answer_choice| output.print answer_choice }
     collect_valid_choice(question_array)
   end
 
   def display_result(question_array, result_message)
     display_question(question_array)
-    output.print result_message
+
+    display_answer_choices(question_array) do |answer_choice|
+      if answer_choice[0] == question_array[2]
+        output.print answer_choice.colorize(:blue)
+      else
+        output.print answer_choice
+      end
+    end
+
+    output.puts result_message
     continue
   end
 
@@ -43,8 +53,6 @@ class UserInterface
 
   def display_question(question_array)
     output.print CLEAR_COMMAND, question_array[0], "\n\n"
-    display_answer_choices(question_array)
-    output.print "\n\n"
   end
 
   def display_answer_choices(question_array)
@@ -52,9 +60,9 @@ class UserInterface
 
     answers.each_index do |index|
       answer_choice = format_choices(answers, index)
-      yield answer_choice if block_given?
-      output.print answer_choice
+      yield answer_choice
     end
+    output.print "\n\n"
   end
 
   def format_choices(answers, index)
