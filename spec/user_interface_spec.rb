@@ -67,10 +67,8 @@ RSpec.describe UserInterface do
 
       expect(output.string).to include(%(How many members are in Gojira?
 
-a\) 3
-b\) 5
-c\) 4
-d\) 6
+a\) 3  b\) 5
+c\) 4  d\) 6
 
 ))
     end
@@ -129,10 +127,8 @@ d\) 6
 
       expect(output.string).to include(%(How many members are in Gojira?
 
-a\) 3
-b\) 5
-\e[34m c\) 4\e[0m
-d\) 6
+a\) 3  b\) 5
+\e[34m c\) 4\e[0m  d\) 6
 
 ))
     end

@@ -8,7 +8,7 @@ class UserInterface
   INTRODUCTION_MESSAGE = 'Welcome to the quiz'
   PRESS_ANY_KEY_MESSAGE = 'Press any key to continue '
   FIRST_QUESTION = ['How many members are in Gojira?', %w[3 5 4 6], 'c'].freeze
-  DECIMAL_VALUE_COMPENSATOR = 97
+  DECIMAL_COMPENSATOR = 97
   ERROR_MESSAGE = "I know what your playing at, you rebel! I'll only except a letter from a to "
 
   def initialize(input, output)
@@ -48,10 +48,21 @@ class UserInterface
   end
 
   def display_answer_choices(question_array)
-    question_array[1].each_index do |index|
-      decimal = index + DECIMAL_VALUE_COMPENSATOR
-      output.puts "#{decimal.chr}) #{question_array[1][index]}"
+    answers = question_array[1]
+
+    answers.each_index do |index|
+      answer_choice = format_choices(answers, index)
+      yield answer_choice if block_given?
+      output.print answer_choice
     end
+  end
+
+  def format_choices(answers, index)
+    margin = answers.max_by(&:length).length + 5
+    answer_choice = "#{(index + DECIMAL_COMPENSATOR).chr}) #{answers[index]}"
+    return answer_choice.rjust(margin) + "\n" unless (index % 2).zero?
+
+    answer_choice
   end
 
   def collect_valid_choice(question_array)
