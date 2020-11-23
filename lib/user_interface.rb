@@ -4,6 +4,7 @@ require 'colorize'
 
 class UserInterface
   CLEAR_COMMAND = "\033[H\033[2J"
+  CORRECT_MESSAGE = 'Correct!'
   INTRODUCTION_MESSAGE = 'Welcome to the quiz'
   PRESS_ANY_KEY_MESSAGE = 'Press any key to continue '
   FIRST_QUESTION = ['How many members are in Gojira?', %w[3 5 4 6], 'c'].freeze
@@ -23,6 +24,12 @@ class UserInterface
   def ask_question(question_array)
     display_question(question_array)
     collect_valid_choice(question_array)
+  end
+
+  def display_result(question_array, result_message)
+    display_question(question_array)
+    output.print result_message
+    continue
   end
 
   private

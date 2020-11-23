@@ -109,7 +109,7 @@ d\) 6
     it 'clears the screen before printing message' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_result(described_class::FIRST_QUESTION)
+      user_interface.display_result(described_class::FIRST_QUESTION, described_class::CORRECT_MESSAGE)
 
       expect(output.string).to include(described_class::CLEAR_COMMAND + described_class::FIRST_QUESTION[0])
     end
@@ -117,7 +117,7 @@ d\) 6
     it 'prints the question to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_result(described_class::FIRST_QUESTION)
+      user_interface.display_result(described_class::FIRST_QUESTION, described_class::CORRECT_MESSAGE)
 
       expect(output.string).to include(described_class::FIRST_QUESTION[0])
     end
@@ -125,7 +125,7 @@ d\) 6
     xit 'prints answer choices with the correct choice in blue text' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_result(described_class::FIRST_QUESTION)
+      user_interface.display_result(described_class::FIRST_QUESTION, described_class::CORRECT_MESSAGE)
 
       expect(output.string).to include(%(How many members are in Gojira?
 
@@ -140,7 +140,7 @@ d\) 6
     it 'prints result message to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_result(described_class::FIRST_QUESTION)
+      user_interface.display_result(described_class::FIRST_QUESTION, described_class::CORRECT_MESSAGE)
 
       expect(output.string).to include(described_class::CORRECT_MESSAGE)
     end
@@ -148,7 +148,7 @@ d\) 6
     it 'prompts user to press any key to continue' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_result(described_class::FIRST_QUESTION)
+      user_interface.display_result(described_class::FIRST_QUESTION, described_class::CORRECT_MESSAGE)
 
       expect(output.string).to include(described_class::PRESS_ANY_KEY_MESSAGE)
     end
@@ -156,7 +156,7 @@ d\) 6
     it 'returns key stroke entered by user' do
       user_interface = described_class.new(input, output)
 
-      result = user_interface.display_result(described_class::FIRST_QUESTION)
+      result = user_interface.display_result(described_class::FIRST_QUESTION, described_class::CORRECT_MESSAGE)
 
       expect(result).to eq('x')
     end
