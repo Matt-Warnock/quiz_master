@@ -31,7 +31,7 @@ class UserInterface
   end
 
   def collect_valid_choice(answers)
-    max_letter_choice = (answers.length + 96).chr
+    max_letter_choice = (answers.length + DECIMAL_COMPENSATOR - 1).chr
 
     loop do
       user_input = input.gets.chomp
@@ -73,9 +73,9 @@ class UserInterface
     output.print "\n\n"
     answers.each_index do |index|
       answer_choice = format_choice(answers, index)
-      yield answer_choice if block_given?
+      yield answer_choice
     end
-    output.print "\n\n"
+    output.print "\n"
   end
 
   def format_choice(answers, index)
