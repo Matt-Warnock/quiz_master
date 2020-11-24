@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 ruby '2.7.1'
 
 group :test do
+  gem 'colorize'
   gem 'coveralls', '~> 0.8', require: false
   gem 'pry', '~> 0.12'
   gem 'rake', '~> 12.3', '>= 12.3'
