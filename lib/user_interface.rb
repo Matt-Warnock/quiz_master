@@ -10,6 +10,7 @@ class UserInterface
   FIRST_QUESTION = ['How many members are in Gojira?', %w[3 5 4 6], 'c'].freeze
   DECIMAL_COMPENSATOR = 97
   ERROR_MESSAGE = "I know what your playing at, you rebel! I'll only except a letter from a to "
+  TOTAL_MESSAGE = 'Total score: '
 
   def initialize(input, output)
     @input = input
@@ -53,6 +54,10 @@ class UserInterface
   def display_result_message(result_message)
     output.puts result_message
     continue
+  end
+
+  def display_total_score(score, questions_number)
+    output.print TOTAL_MESSAGE, "[#{score}/#{questions_number}]\n"
   end
 
   private

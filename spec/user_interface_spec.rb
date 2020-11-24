@@ -143,4 +143,15 @@ a\) 3  b\) 5
       expect(result).to eq('x')
     end
   end
+
+  describe '#display_total_score' do
+    it 'prints the amout of questions correct with total possible' do
+      input = StringIO.new
+      user_interface = described_class.new(input, output)
+
+      user_interface.display_total_score(3, 10)
+
+      expect(output.string).to include(described_class::TOTAL_MESSAGE + '[3/10]')
+    end
+  end
 end
