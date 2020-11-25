@@ -1,61 +1,61 @@
 # frozen_string_literal: true
 
+require 'gojira_questions'
 require 'user_interface'
 
 RSpec.describe UserInterface do
   let(:input) { StringIO.new }
   let(:output) { StringIO.new }
 
-  describe '#intro' do
-    it 'clears the screen before printing message' do
+  describe '#display_header' do
+    it 'clears the screen before printing header' do
       user_interface = described_class.new(input, output)
 
-      user_interface.intro
+      user_interface.display_header
 
-      expect(output.string).to include(described_class::CLEAR_COMMAND + described_class::INTRODUCTION_MESSAGE)
+      expect(output.string).to include(QuizMessages::CLEAR_COMMAND +
+                                       QuizMessages::INTRODUCTION_HEADER)
     end
+  end
+
+  describe '#intro' do
+    let(:subject) { 'subject' }
 
     it 'prints an introduction to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.intro
+      user_interface.intro(subject)
 
-      expect(output.string).to include(described_class::INTRODUCTION_MESSAGE)
+      expect(output.string).to include(QuizMessages::INTRODUCTION_MESSAGE_ONE +
+                                       subject +
+                                       QuizMessages::INTRODUCTION_MESSAGE_TWO)
     end
 
     it 'prompts user to press any key to continue' do
       user_interface = described_class.new(input, output)
 
-      user_interface.intro
+      user_interface.intro(subject)
 
-      expect(output.string).to include(described_class::PRESS_ANY_KEY_MESSAGE)
+      expect(output.string).to include(QuizMessages::PRESS_ANY_KEY_MESSAGE)
     end
 
     it 'returns key stroke entered by user' do
       continue_input = StringIO.new('x')
       user_interface = described_class.new(continue_input, output)
 
-      result = user_interface.intro
+      result = user_interface.intro(subject)
 
       expect(result).to eq('x')
     end
   end
 
   describe '#display_question' do
-    it 'clears the screen before printing message' do
-      user_interface = described_class.new(input, output)
-
-      user_interface.display_question(described_class::FIRST_QUESTION[0])
-
-      expect(output.string).to include(described_class::CLEAR_COMMAND + described_class::FIRST_QUESTION[0])
-    end
-
     it 'prints a question to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_question(described_class::FIRST_QUESTION[0])
+      user_interface.display_question(test_question_set[0])
 
-      expect(output.string).to include(described_class::FIRST_QUESTION[0])
+      expect(output.string).to include(test_question_set[0])
     end
   end
 
@@ -63,12 +63,12 @@ RSpec.describe UserInterface do
     it 'prints answer choices to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_answer_choices(described_class::FIRST_QUESTION[1])
+      user_interface.display_answer_choices(test_question_set[1])
 
       expect(output.string).to eq("
 
-a) #{described_class::FIRST_QUESTION[1][0]}  b) #{described_class::FIRST_QUESTION[1][1]}
-c) #{described_class::FIRST_QUESTION[1][2]}  d) #{described_class::FIRST_QUESTION[1][3]}
+a) #{test_question_set[1][0]}  b) #{test_question_set[1][1]}
+c) #{test_question_set[1][2]}                d) #{test_question_set[1][3]}
 
 ")
     end
@@ -79,7 +79,7 @@ c) #{described_class::FIRST_QUESTION[1][2]}  d) #{described_class::FIRST_QUESTIO
       correct_input = StringIO.new("c\n")
       user_interface = described_class.new(correct_input, output)
 
-      result = user_interface.collect_valid_choice(described_class::FIRST_QUESTION[1])
+      result = user_interface.collect_valid_choice(test_question_set[1])
 
       expect(result).to eq('c')
     end
@@ -88,19 +88,19 @@ c) #{described_class::FIRST_QUESTION[1][2]}  d) #{described_class::FIRST_QUESTIO
       input = StringIO.new("f\nc\n")
       user_interface = described_class.new(input, output)
 
-      user_interface.collect_valid_choice(described_class::FIRST_QUESTION[1])
+      user_interface.collect_valid_choice(test_question_set[1])
 
-      expect(output.string).to include(described_class::ERROR_MESSAGE +
-                                      (described_class::FIRST_QUESTION[1].length + 96).chr)
+      expect(output.string).to include(QuizMessages::ERROR_MESSAGE +
+                                      (test_question_set[1].length + 96).chr)
     end
 
     it 'keeps on asking for input until a vaild input is given' do
       input = StringIO.new("x\nf\nc\n")
       user_interface = described_class.new(input, output)
 
-      user_interface.collect_valid_choice(described_class::FIRST_QUESTION[1])
+      user_interface.collect_valid_choice(test_question_set[1])
 
-      expect(output.string.scan(described_class::ERROR_MESSAGE).length).to eq(2)
+      expect(output.string.scan(QuizMessages::ERROR_MESSAGE).length).to eq(2)
     end
   end
 
@@ -108,12 +108,12 @@ c) #{described_class::FIRST_QUESTION[1][2]}  d) #{described_class::FIRST_QUESTIO
     it 'prints answer choices with the correct choice in blue text' do
       user_interface = described_class.new(input, output)
 
-      user_interface.reveal_answer(described_class::FIRST_QUESTION[1], described_class::FIRST_QUESTION[2])
+      user_interface.reveal_answer(test_question_set[1], test_question_set[2])
 
       expect(output.string).to eq("
 
-a) #{described_class::FIRST_QUESTION[1][0]}  b) #{described_class::FIRST_QUESTION[1][1]}
-\e[0;34;49mc) #{described_class::FIRST_QUESTION[1][2]}\e[0m  d) #{described_class::FIRST_QUESTION[1][3]}
+a) #{test_question_set[1][0]}  b) #{test_question_set[1][1]}
+\e[0;34;49mc) #{test_question_set[1][2]}\e[0m                d) #{test_question_set[1][3]}
 
 ")
     end
@@ -123,24 +123,24 @@ a) #{described_class::FIRST_QUESTION[1][0]}  b) #{described_class::FIRST_QUESTIO
     it 'prints result message to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_result_message(described_class::CORRECT_MESSAGE)
+      user_interface.display_result_message(QuizMessages::CORRECT_MESSAGE)
 
-      expect(output.string).to include(described_class::CORRECT_MESSAGE)
+      expect(output.string).to include(QuizMessages::CORRECT_MESSAGE)
     end
 
     it 'prompts user to press any key to continue' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_result_message(described_class::CORRECT_MESSAGE)
+      user_interface.display_result_message(QuizMessages::CORRECT_MESSAGE)
 
-      expect(output.string).to include(described_class::PRESS_ANY_KEY_MESSAGE)
+      expect(output.string).to include(QuizMessages::PRESS_ANY_KEY_MESSAGE)
     end
 
     it 'returns key stroke entered by user' do
       continue_input = StringIO.new('x')
       user_interface = described_class.new(continue_input, output)
 
-      result = user_interface.display_result_message(described_class::CORRECT_MESSAGE)
+      result = user_interface.display_result_message(QuizMessages::CORRECT_MESSAGE)
 
       expect(result).to eq('x')
     end
@@ -152,7 +152,12 @@ a) #{described_class::FIRST_QUESTION[1][0]}  b) #{described_class::FIRST_QUESTIO
 
       user_interface.display_total_score(3, 10)
 
-      expect(output.string).to include(described_class::TOTAL_MESSAGE + '[3/10]')
+      expect(output.string).to include(QuizMessages::TOTAL_MESSAGE + '[3/10]')
     end
+  end
+
+  def test_question_set
+    ['The Duplantier brothers formed an avant-garde metal band in 1998, what was the name of that band?',
+     ['Inflikted', 'Cavalera Conspiracy', 'Empalot', 'Brout'], 'c']
   end
 end
