@@ -19,9 +19,10 @@ RSpec.describe UserInterface do
   end
 
   describe '#intro' do
+    let(:subject) { 'subject' }
+
     it 'prints an introduction to the screen' do
       user_interface = described_class.new(input, output)
-      subject = GojiraQestions::SUBJECT
 
       user_interface.intro(subject)
 
@@ -33,7 +34,7 @@ RSpec.describe UserInterface do
     it 'prompts user to press any key to continue' do
       user_interface = described_class.new(input, output)
 
-      user_interface.intro(GojiraQestions::SUBJECT)
+      user_interface.intro(subject)
 
       expect(output.string).to include(QuizMessages::PRESS_ANY_KEY_MESSAGE)
     end
@@ -42,7 +43,7 @@ RSpec.describe UserInterface do
       continue_input = StringIO.new('x')
       user_interface = described_class.new(continue_input, output)
 
-      result = user_interface.intro(GojiraQestions::SUBJECT)
+      result = user_interface.intro(subject)
 
       expect(result).to eq('x')
     end
@@ -52,9 +53,9 @@ RSpec.describe UserInterface do
     it 'prints a question to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_question(GojiraQestions::QUESTIONS[0][0])
+      user_interface.display_question(test_question_set[0])
 
-      expect(output.string).to include(GojiraQestions::QUESTIONS[0][0])
+      expect(output.string).to include(test_question_set[0])
     end
   end
 
@@ -62,12 +63,12 @@ RSpec.describe UserInterface do
     it 'prints answer choices to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_answer_choices(GojiraQestions::QUESTIONS[0][1])
+      user_interface.display_answer_choices(test_question_set[1])
 
       expect(output.string).to eq("
 
-a) #{GojiraQestions::QUESTIONS[0][1][0]}  b) #{GojiraQestions::QUESTIONS[0][1][1]}
-c) #{GojiraQestions::QUESTIONS[0][1][2]}  d) #{GojiraQestions::QUESTIONS[0][1][3]}
+a) #{test_question_set[1][0]}  b) #{test_question_set[1][1]}
+c) #{test_question_set[1][2]}                d) #{test_question_set[1][3]}
 
 ")
     end
@@ -78,7 +79,7 @@ c) #{GojiraQestions::QUESTIONS[0][1][2]}  d) #{GojiraQestions::QUESTIONS[0][1][3
       correct_input = StringIO.new("c\n")
       user_interface = described_class.new(correct_input, output)
 
-      result = user_interface.collect_valid_choice(GojiraQestions::QUESTIONS[0][1])
+      result = user_interface.collect_valid_choice(test_question_set[1])
 
       expect(result).to eq('c')
     end
@@ -87,17 +88,17 @@ c) #{GojiraQestions::QUESTIONS[0][1][2]}  d) #{GojiraQestions::QUESTIONS[0][1][3
       input = StringIO.new("f\nc\n")
       user_interface = described_class.new(input, output)
 
-      user_interface.collect_valid_choice(GojiraQestions::QUESTIONS[0][1])
+      user_interface.collect_valid_choice(test_question_set[1])
 
       expect(output.string).to include(QuizMessages::ERROR_MESSAGE +
-                                      (GojiraQestions::QUESTIONS[0][1].length + 96).chr)
+                                      (test_question_set[1].length + 96).chr)
     end
 
     it 'keeps on asking for input until a vaild input is given' do
       input = StringIO.new("x\nf\nc\n")
       user_interface = described_class.new(input, output)
 
-      user_interface.collect_valid_choice(GojiraQestions::QUESTIONS[0][1])
+      user_interface.collect_valid_choice(test_question_set[1])
 
       expect(output.string.scan(QuizMessages::ERROR_MESSAGE).length).to eq(2)
     end
@@ -107,12 +108,12 @@ c) #{GojiraQestions::QUESTIONS[0][1][2]}  d) #{GojiraQestions::QUESTIONS[0][1][3
     it 'prints answer choices with the correct choice in blue text' do
       user_interface = described_class.new(input, output)
 
-      user_interface.reveal_answer(GojiraQestions::QUESTIONS[0][1], GojiraQestions::QUESTIONS[0][2])
+      user_interface.reveal_answer(test_question_set[1], test_question_set[2])
 
       expect(output.string).to eq("
 
-a) #{GojiraQestions::QUESTIONS[0][1][0]}  b) #{GojiraQestions::QUESTIONS[0][1][1]}
-\e[0;34;49mc) #{GojiraQestions::QUESTIONS[0][1][2]}\e[0m  d) #{GojiraQestions::QUESTIONS[0][1][3]}
+a) #{test_question_set[1][0]}  b) #{test_question_set[1][1]}
+\e[0;34;49mc) #{test_question_set[1][2]}\e[0m                d) #{test_question_set[1][3]}
 
 ")
     end
@@ -153,5 +154,10 @@ a) #{GojiraQestions::QUESTIONS[0][1][0]}  b) #{GojiraQestions::QUESTIONS[0][1][1
 
       expect(output.string).to include(QuizMessages::TOTAL_MESSAGE + '[3/10]')
     end
+  end
+
+  def test_question_set
+    ['The Duplantier brothers formed an avant-garde metal band in 1998, what was the name of that band?',
+     ['Inflikted', 'Cavalera Conspiracy', 'Empalot', 'Brout'], 'c']
   end
 end
