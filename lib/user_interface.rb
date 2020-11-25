@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'colorize'
+require 'gojira_questions'
+require 'quiz_messages'
 
 class UserInterface
   CLEAR_COMMAND = "\033[H\033[2J"
@@ -17,13 +19,17 @@ class UserInterface
     @output = output
   end
 
-  def intro
-    output.print CLEAR_COMMAND, INTRODUCTION_MESSAGE
+  def display_header
+    output.print QuizMessages::CLEAR_COMMAND, QuizMessages::INTRODUCTION_HEADER
+  end
+
+  def intro(subject)
+    output.print QuizMessages::INTRODUCTION_MESSAGE_ONE + subject + QuizMessages::INTRODUCTION_MESSAGE_TWO
     continue
   end
 
   def display_question(question)
-    output.print CLEAR_COMMAND, question
+    output.print question
   end
 
   def display_answer_choices(answers)

@@ -6,56 +6,54 @@ RSpec.describe UserInterface do
   let(:input) { StringIO.new }
   let(:output) { StringIO.new }
 
-  describe '#intro' do
-    it 'clears the screen before printing message' do
+  describe '#display_header' do
+    it 'clears the screen before printing header' do
       user_interface = described_class.new(input, output)
 
-      user_interface.intro
+      user_interface.display_header
 
-      expect(output.string).to include(described_class::CLEAR_COMMAND + described_class::INTRODUCTION_MESSAGE)
+      expect(output.string).to include(QuizMessages::CLEAR_COMMAND +
+                                       QuizMessages::INTRODUCTION_HEADER)
     end
+  end
 
+  describe '#intro' do
     it 'prints an introduction to the screen' do
       user_interface = described_class.new(input, output)
+      subject = GojiraQestions::SUBJECT
 
-      user_interface.intro
+      user_interface.intro(subject)
 
-      expect(output.string).to include(described_class::INTRODUCTION_MESSAGE)
+      expect(output.string).to include(QuizMessages::INTRODUCTION_MESSAGE_ONE +
+                                       subject +
+                                       QuizMessages::INTRODUCTION_MESSAGE_TWO)
     end
 
     it 'prompts user to press any key to continue' do
       user_interface = described_class.new(input, output)
 
-      user_interface.intro
+      user_interface.intro(GojiraQestions::SUBJECT)
 
-      expect(output.string).to include(described_class::PRESS_ANY_KEY_MESSAGE)
+      expect(output.string).to include(QuizMessages::PRESS_ANY_KEY_MESSAGE)
     end
 
     it 'returns key stroke entered by user' do
       continue_input = StringIO.new('x')
       user_interface = described_class.new(continue_input, output)
 
-      result = user_interface.intro
+      result = user_interface.intro(GojiraQestions::SUBJECT)
 
       expect(result).to eq('x')
     end
   end
 
   describe '#display_question' do
-    it 'clears the screen before printing message' do
-      user_interface = described_class.new(input, output)
-
-      user_interface.display_question(described_class::FIRST_QUESTION[0])
-
-      expect(output.string).to include(described_class::CLEAR_COMMAND + described_class::FIRST_QUESTION[0])
-    end
-
     it 'prints a question to the screen' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_question(described_class::FIRST_QUESTION[0])
+      user_interface.display_question(GojiraQestions::QUESTIONS[0][0])
 
-      expect(output.string).to include(described_class::FIRST_QUESTION[0])
+      expect(output.string).to include(GojiraQestions::QUESTIONS[0][0])
     end
   end
 
