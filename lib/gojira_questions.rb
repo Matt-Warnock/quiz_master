@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 module GojiraQestions
-  CLEAR_COMMAND = "\033[H\033[2J"
-  CORRECT_MESSAGE = 'Correct!'
-  DECIMAL_COMPENSATOR = 97
-  ERROR_MESSAGE = "I know what your playing at, you rebel! I'll only except a letter from a to "
+  SUBJECT = 'Gojira'
   FIRST_QUESTION = ['How many members are in Gojira?', %w[3 5 4 6], 'c'].freeze
   SECOND_QUESTION = ['Which city in France does the band originate from?', %w[Nantes Bayonne Lyon Paris], 'b'].freeze
   THIRD_QUESTION = ["Gojira wasn't always known under that name, what was the original name of the band?",
@@ -19,21 +16,6 @@ module GojiraQestions
   NINTH_QUESTION = ['What year did Gojira sign to RoadRunner Records?', %w[2001 2003 2011 2015], 'c'].freeze
   TENTH_QUESTION = ['The Duplantier brothers formed an avant-garde metal band in 1998, what was the name of that band?',
                     ['Inflikted', 'Cavalera Conspiracy', 'Empalot', 'Brout'], 'c'].freeze
-  INCORRECT_MESSAGE = 'Ah, thats the wrong answer.'
-  INTRODUCTION_HEADER = %(
-    ---------------------
-
-         Quiz Master
-
-    ---------------------
-
-
-)
-  INTRODUCTION_MESSAGE_ONE = 'Welcome to the quiz! I heared that you know alot about '
-  INTRODUCTION_MESSAGE_TWO = ", so lets test that knowlage.
- I'll asks you some multi-choice questions,
- type the letter of the question choice(a, b, or c ect..) and then press enter."
-  PRESS_ANY_KEY_MESSAGE = 'Press any key to continue '
-  TOTAL_MESSAGE = 'Total score: '
-  QESTIONS_SUBJECT = 'Gojira'
+  QUESTIONS = [FIRST_QUESTION, SECOND_QUESTION, THIRD_QUESTION, FORTH_QUESTION, FIFTH_QUESTION,
+               SIXTH_QUESTION, SEVENTH_QUESTION, EIGHTH_QUESTION, NINTH_QUESTION, TENTH_QUESTION].freeze
 end
