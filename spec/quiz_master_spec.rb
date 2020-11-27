@@ -7,7 +7,8 @@ require 'quiz_messages'
 RSpec.describe QuizMaster do
   describe '#run' do
     let(:output) { StringIO.new }
-    let(:input) { StringIO.new("\nb\n") }
+    answer_one_quesion = "\na\n\n"
+    let(:input) { StringIO.new(answer_one_quesion * 10) }
 
     it 'clears the screen then prints header' do
       user_interface = UserInterface.new(input, output)
@@ -82,8 +83,9 @@ RSpec.describe QuizMaster do
     end
 
     it 'displays a congratulatory message if user answer is correct' do
-      correct_answer_input = StringIO.new("\nc\n")
-      user_interface = UserInterface.new(correct_answer_input, output)
+      correct_answers_path = "\nc\n\n\nb\n\n\nd\n\n\na\n\n\nd\n\n\nb\n\n\na\n\n\nb\n\n\nc\n\n\nc\n\n"
+      input = StringIO.new(correct_answers_path)
+      user_interface = UserInterface.new(input, output)
       controler = QuizMaster.new(user_interface)
 
       controler.run
@@ -92,13 +94,23 @@ RSpec.describe QuizMaster do
     end
 
     it 'displays a consolatory message if user answer is incorrect' do
-      correct_answer_input = StringIO.new("\nd\n")
-      user_interface = UserInterface.new(correct_answer_input, output)
+      incorrect_answers_path = "\na\n\n\na\n\n\na\n\n\nb\n\n\na\n\n\na\n\n\nb\n\n\na\n\n\n\na\n\n\na\n\n"
+      input = StringIO.new(incorrect_answers_path)
+      user_interface = UserInterface.new(input, output)
       controler = QuizMaster.new(user_interface)
 
       controler.run
 
       expect(output.string).to include(QuizMessages::INCORRECT_MESSAGE)
+    end
+
+    it 'asks all the questions' do
+      user_interface = UserInterface.new(input, output)
+      controler = QuizMaster.new(user_interface)
+
+      controler.run
+
+      expect(output.string.scan('?').length).to eq(9)
     end
   end
 end

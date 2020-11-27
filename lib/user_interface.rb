@@ -9,7 +9,7 @@ class UserInterface
     @output = output
   end
 
-  def display_header
+  def reset_screen
     output.print QuizMessages::CLEAR_COMMAND, QuizMessages::INTRODUCTION_HEADER
   end
 
