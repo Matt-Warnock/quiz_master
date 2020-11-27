@@ -80,7 +80,7 @@ class UserInterface
   def format_choice(answers, index)
     margin = answers.max_by(&:length).length + 5
     answer_choice = "#{(index + QuizMessages::DECIMAL_COMPENSATOR).chr}) #{answers[index]}"
-    return answer_choice.rjust(margin) + "\n" unless (index % 2).zero?
+    return answer_choice.rjust(margin) + "\n" unless (index + 1).odd?
 
     answer_choice
   end
