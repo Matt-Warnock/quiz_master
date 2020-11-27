@@ -20,8 +20,8 @@ module QuizMessages
   )
   INTRODUCTION_MESSAGE_ONE = 'Welcome to the quiz! I heared that you know alot about '
   INTRODUCTION_MESSAGE_TWO = ", so lets test that knowlage!
- I'll asks you some multi-choice questions,
- type the letter of the question choice (a, b, or c ect..) and then press enter."
+  I'll asks you some multi-choice questions,
+  type the letter of the question choice (a, b, or c ect..) and then press enter."
   PRESS_ANY_KEY_MESSAGE = 'Press any key to continue '
   SCORE_COMMENT_HIGH = 'Congratulations! You did very well!'
   SCORE_COMMENT_MED = 'Well done! You did good, some of these questions are hard.'
