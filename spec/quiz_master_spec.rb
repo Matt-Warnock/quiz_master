@@ -7,8 +7,8 @@ require 'quiz_messages'
 RSpec.describe QuizMaster do
   describe '#run' do
     let(:output) { StringIO.new }
-    answer_one_quesion = "\na\n\n"
-    let(:input) { StringIO.new(answer_one_quesion * 10) }
+    answer_one_quesion = "a\n\n"
+    let(:input) { StringIO.new("\n" + (answer_one_quesion * 10)) }
 
     it 'clears the screen then prints header' do
       user_interface = UserInterface.new(input, output)
@@ -83,7 +83,7 @@ RSpec.describe QuizMaster do
     end
 
     it 'displays a congratulatory message if user answer is correct' do
-      correct_answers_path = "\nc\n\n\nb\n\n\nd\n\n\na\n\n\nd\n\n\nb\n\n\na\n\n\nb\n\n\nc\n\n\nc\n\n"
+      correct_answers_path = "\nc\n\nb\n\nd\n\na\n\nd\n\nb\n\na\n\nb\n\nc\n\nc\n\n"
       input = StringIO.new(correct_answers_path)
       user_interface = UserInterface.new(input, output)
       controler = QuizMaster.new(user_interface)
@@ -94,7 +94,7 @@ RSpec.describe QuizMaster do
     end
 
     it 'displays a consolatory message if user answer is incorrect' do
-      incorrect_answers_path = "\na\n\n\na\n\n\na\n\n\nb\n\n\na\n\n\na\n\n\nb\n\n\na\n\n\n\na\n\n\na\n\n"
+      incorrect_answers_path = "\na\n\na\n\na\n\nb\n\na\n\na\n\nb\n\na\n\na\n\na\n\n"
       input = StringIO.new(incorrect_answers_path)
       user_interface = UserInterface.new(input, output)
       controler = QuizMaster.new(user_interface)
@@ -111,6 +111,15 @@ RSpec.describe QuizMaster do
       controler.run
 
       expect(output.string.scan('?').length).to eq(9)
+    end
+
+    it 'shows total user score with maximum possible' do
+      user_interface = UserInterface.new(input, output)
+      controler = QuizMaster.new(user_interface)
+
+      controler.run
+
+      expect(output.string).to include('[2/10]')
     end
   end
 end
