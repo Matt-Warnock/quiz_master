@@ -4,3 +4,7 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'io/console'
+require 'user_interface'
+require 'quiz_master'
+
+QuizMaster.new(UserInterface.new($stdin, $stdout)).run

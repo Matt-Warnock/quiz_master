@@ -7,11 +7,11 @@ RSpec.describe UserInterface do
   let(:input) { StringIO.new }
   let(:output) { StringIO.new }
 
-  describe '#display_header' do
+  describe '#reset_screen' do
     it 'clears the screen before printing header' do
       user_interface = described_class.new(input, output)
 
-      user_interface.display_header
+      user_interface.reset_screen
 
       expect(output.string).to include(QuizMessages::CLEAR_COMMAND +
                                        QuizMessages::INTRODUCTION_HEADER)

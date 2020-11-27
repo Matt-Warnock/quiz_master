@@ -9,12 +9,15 @@ class UserInterface
     @output = output
   end
 
-  def display_header
+  def reset_screen
     output.print QuizMessages::CLEAR_COMMAND, QuizMessages::INTRODUCTION_HEADER
   end
 
   def intro(subject)
-    output.print QuizMessages::INTRODUCTION_MESSAGE_ONE + subject + QuizMessages::INTRODUCTION_MESSAGE_TWO
+    output.print QuizMessages::INTRODUCTION_MESSAGE_ONE +
+                 subject +
+                 QuizMessages::INTRODUCTION_MESSAGE_TWO +
+                 "\n\n"
     continue
   end
 
@@ -33,13 +36,13 @@ class UserInterface
       user_input = input.gets.chomp
       break user_input if user_input.match?(/^[a-#{max_letter_choice}]$/i)
 
-      output.print QuizMessages::ERROR_MESSAGE + max_letter_choice
+      output.print QuizMessages::ERROR_MESSAGE + max_letter_choice + ': '
     end
   end
 
   def reveal_answer(answers, correct_answer)
     each_formated_choice(answers) do |answer_choice|
-      if answer_choice[0] == correct_answer
+      if answer_choice.scan(/\w/).first == correct_answer
         output.print answer_choice.colorize(:blue)
       else
         output.print answer_choice
@@ -53,7 +56,7 @@ class UserInterface
   end
 
   def display_total_score(score, questions_number)
-    output.print QuizMessages::TOTAL_MESSAGE, "[#{score}/#{questions_number}]\n"
+    output.print "\n\n" + QuizMessages::TOTAL_MESSAGE, "[#{score}/#{questions_number}]\n\n"
   end
 
   private
@@ -77,7 +80,7 @@ class UserInterface
   def format_choice(answers, index)
     margin = answers.max_by(&:length).length + 5
     answer_choice = "#{(index + QuizMessages::DECIMAL_COMPENSATOR).chr}) #{answers[index]}"
-    return answer_choice.rjust(margin) + "\n" unless (index % 2).zero?
+    return answer_choice.rjust(margin) + "\n" unless (index + 1).odd?
 
     answer_choice
   end
