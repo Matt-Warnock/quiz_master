@@ -5,12 +5,14 @@ require 'gojira_questions'
 class QuizMaster
   def initialize(user_interface)
     @ui = user_interface
+    @user_score = 0
   end
 
   def run
     ui.reset_screen
     ui.intro(GojiraQestions::SUBJECT)
     ask_all_questions
+    ui.display_total_score(@user_score, GojiraQestions::QUESTIONS.length)
   end
 
   private
@@ -30,6 +32,7 @@ class QuizMaster
   def conclued_result(user_answer, correct_answer)
     if user_answer == correct_answer
       ui.display_result_message(QuizMessages::CORRECT_MESSAGE)
+      @user_score += 1
     else
       ui.display_result_message(QuizMessages::INCORRECT_MESSAGE)
     end
