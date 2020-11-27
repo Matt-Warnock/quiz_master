@@ -38,6 +38,7 @@ class QuizMaster
 
       ui.reset_screen
       user_answer = ask_question(GojiraQestions::QUESTIONS[index][0], answer_choices)
+      ui.reset_screen
       ui.reveal_answer(answer_choices, correct_answer)
       conclued_result(user_answer, correct_answer)
     end

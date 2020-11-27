@@ -42,7 +42,7 @@ class UserInterface
 
   def reveal_answer(answers, correct_answer)
     each_formated_choice(answers) do |answer_choice|
-      if answer_choice[0] == correct_answer
+      if answer_choice.scan(/\w/).first == correct_answer
         output.print answer_choice.colorize(:blue)
       else
         output.print answer_choice

@@ -36,7 +36,9 @@ RSpec.describe QuizMaster do
 
       controler.run
 
-      expect(output.string).to include(QuizMessages::INTRODUCTION_MESSAGE_TWO + QuizMessages::PRESS_ANY_KEY_MESSAGE)
+      expect(output.string).to include(QuizMessages::INTRODUCTION_MESSAGE_TWO +
+                                       "\n\n" +
+                                       QuizMessages::PRESS_ANY_KEY_MESSAGE)
     end
 
     it 'clears screen then prints header before asking question' do
