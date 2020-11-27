@@ -9,13 +9,27 @@ class QuizMaster
   end
 
   def run
+    total_questions = GojiraQestions::QUESTIONS.length
+
     ui.reset_screen
     ui.intro(GojiraQestions::SUBJECT)
     ask_all_questions
-    ui.display_total_score(@user_score, GojiraQestions::QUESTIONS.length)
+    ui.display_total_score(@user_score, total_questions)
+    score_comment(total_questions)
   end
 
   private
+
+  def score_comment(total_questions)
+    case (@user_score.to_f / total_questions) * 100
+    when 67..100
+      ui.display_result_message(QuizMessages::SCORE_COMMENT_HIGH)
+    when 33..66
+      ui.display_result_message(QuizMessages::SCORE_COMMENT_MED)
+    else
+      ui.display_result_message(QuizMessages::SCORE_COMMENT_LOW)
+    end
+  end
 
   def ask_all_questions
     GojiraQestions::QUESTIONS.each_index do |index|

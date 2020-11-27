@@ -121,5 +121,38 @@ RSpec.describe QuizMaster do
 
       expect(output.string).to include('[2/10]')
     end
+
+    it 'comments user did very well if score is higher than 2/3 of max score' do
+      pass_eight_qestions = "\na\n\na\n\nd\n\na\n\nd\n\nb\n\na\n\nb\n\nc\n\nc\n\n"
+      input = StringIO.new(pass_eight_qestions)
+      user_interface = UserInterface.new(input, output)
+      controler = QuizMaster.new(user_interface)
+
+      controler.run
+
+      expect(output.string).to include(QuizMessages::SCORE_COMMENT_HIGH)
+    end
+
+    it 'comments user did ok if score is between 1/3 and 2/3 of max score' do
+      pass_four_qestions = "\nc\n\nb\n\nd\n\na\n\na\n\na\n\nb\n\na\n\na\n\na\n\n"
+      input = StringIO.new(pass_four_qestions)
+      user_interface = UserInterface.new(input, output)
+      controler = QuizMaster.new(user_interface)
+
+      controler.run
+
+      expect(output.string).to include(QuizMessages::SCORE_COMMENT_MED)
+    end
+
+    it 'comments user will have better luck next time if score is lower than 1/3 of max score' do
+      pass_two_qestions = "\nc\n\nb\n\nb\n\nb\n\na\n\na\n\nb\n\na\n\na\n\na\n\n"
+      input = StringIO.new(pass_two_qestions)
+      user_interface = UserInterface.new(input, output)
+      controler = QuizMaster.new(user_interface)
+
+      controler.run
+
+      expect(output.string).to include(QuizMessages::SCORE_COMMENT_LOW)
+    end
   end
 end
