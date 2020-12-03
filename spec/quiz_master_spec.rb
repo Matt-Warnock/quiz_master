@@ -7,7 +7,7 @@ require 'quiz_messages'
 RSpec.describe QuizMaster do
   describe '#run' do
     let(:output) { StringIO.new }
-    answer_one_quesion = "a\n\n"
+    let(:answer_one_quesion) { "a\n\n" }
     let(:input) { StringIO.new("\n" + (answer_one_quesion * 10)) }
 
     it 'clears the screen then prints header' do
@@ -86,6 +86,17 @@ RSpec.describe QuizMaster do
 
     it 'displays a congratulatory message if user answer is correct' do
       correct_answers_path = "\nc\n\nb\n\nd\n\na\n\nd\n\nb\n\na\n\nb\n\nc\n\nc\n\n"
+      input = StringIO.new(correct_answers_path)
+      user_interface = UserInterface.new(input, output)
+      controler = QuizMaster.new(user_interface)
+
+      controler.run
+
+      expect(output.string).to include(QuizMessages::CORRECT_MESSAGE)
+    end
+
+    it 'execpts captitalized answers' do
+      correct_answers_path = "\nC\n\nB\n\nD\n\nA\n\nD\n\nB\n\nA\n\nB\n\nC\n\nC\n\n"
       input = StringIO.new(correct_answers_path)
       user_interface = UserInterface.new(input, output)
       controler = QuizMaster.new(user_interface)

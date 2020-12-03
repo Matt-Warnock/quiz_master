@@ -45,7 +45,7 @@ class QuizMaster
   end
 
   def conclued_result(user_answer, correct_answer)
-    if user_answer == correct_answer
+    if user_answer.downcase == correct_answer
       ui.display_result_message(QuizMessages::CORRECT_MESSAGE)
       @user_score += 1
     else
