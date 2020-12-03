@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/Matt-Warnock/quiz_master.svg?branch=master)](https://travis-ci.org/Matt-Warnock/quiz_master
 )
-[![Coverage Status](https://coveralls.io/repos/github/Matt-Warnock/quiz_master/badge.svg?branch=master)](https://coveralls.io/github/Matt-Warnock/quiz_master
-?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Matt-Warnock/quiz_master/badge.svg?branch=master)](https://coveralls.io/github/Matt-Warnock/quiz_master?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/928faf993ccf571770dc/maintainability)](https://codeclimate.com/github/Matt-Warnock/quiz_master/maintainability)
 [![Dependency status](https://badges.depfu.com/badges/a5f9aa0eb83998a1a81f7b1298a0b4f8/overview.svg)](https://depfu.com/github/Matt-Warnock/quiz_master?project=Bundler)
 
