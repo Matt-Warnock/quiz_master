@@ -37,15 +37,15 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.0)
-    rubocop (0.93.1)
+    rubocop (1.15.0)
       parallel (~> 1.10)
-      parser (>= 2.7.1.5)
+      parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.8)
+      regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 0.6.0)
+      rubocop-ast (>= 1.5.0, < 2.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 2.0)
+      unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.5.0)
       parser (>= 3.0.1.1)
     ruby-progressbar (1.11.0)
@@ -60,7 +60,7 @@ GEM
     thor (1.0.1)
     tins (1.25.0)
       sync
-    unicode-display_width (1.7.0)
+    unicode-display_width (2.0.0)
 
 PLATFORMS
   ruby
@@ -71,7 +71,7 @@ DEPENDENCIES
   pry (~> 0.12)
   rake (~> 13.0, >= 12.3)
   rspec (~> 3.9)
-  rubocop (~> 0.85)
+  rubocop (~> 1.15)
 
 RUBY VERSION
    ruby 2.7.1p83
