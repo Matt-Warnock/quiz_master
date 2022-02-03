@@ -7,13 +7,38 @@
 
 # Readme
 
-Explain your project here.
+# quiz_master
 
+A CLI app that asks multi-choice questions and keeps score.
 
-## Badges
+## Interchangeable questions module
 
-* Turn your repo ON in Travis (CI), in Coveralls (coverage status), codeclimate (maintainability), and depfu (dependency status).
-* Update badges with your user/repo names.
+This app is currently designed to receive the questions and answers from a `Questions module`.
+You replace the questions module `lib/questions.rb` to the project in this format:
+
+```ruby
+module Qestions
+  SUBJECT = < questions subject string >
+  FIRST = [< question string >, < answers array of strings >, < correct answer letter >].freeze
+  SECOND = ect...
+  ALL = [FIRST, SECOND, ect...].freeze
+end
+```
+The questions module must included a **SUBJECT**, **ALL** and at least one question constants.
+- **Answers array of strings** can be as long as you like (more than one) I recommend 4 - 5 answers.
+- **Correct answer letter** needs to be the letter that represents the order of the correct_answer within the `< answers array of strings >`.\
+For example:
+
+```ruby
+correct_answer = questions::FIRST[1][0]
+# means correct answer letter is 'A'
+
+correct_answer = questions::FIRST[1][2]
+# means correct answer letter is 'C'
+
+```
+
+**ALL** is an array of all the question constants in module. It can be any amount of vaild question constants.
 
 
 ## How to use this project
@@ -28,7 +53,7 @@ For example, if you are using [rbenv](https://cbednarski.com/articles/installing
   ```
 1. Move to the root directory of this project and type:
   ```bash
-  rbenv local < VERSION >
+  rbenv local 2.7.1
   ruby -v
   ```
 
@@ -38,7 +63,6 @@ You will also need to install the `bundler` gem, which will allow you to install
 gem install bundler
 rbenv rehash
 ```
-
 
 ### Folder structure
 
@@ -52,7 +76,6 @@ rbenv rehash
 ```bash
 bundle install
 ```
-
 
 ### To run the app
 
@@ -112,6 +135,11 @@ bundle exec rubocop
 ```bash
 bundle exec rake
 ```
+
+## Badges
+
+* Turn your repo ON in Travis (CI), in Coveralls (coverage status), codeclimate (maintainability), and depfu (dependency status).
+* Update badges with your user/repo names.
 
 
 ## License
