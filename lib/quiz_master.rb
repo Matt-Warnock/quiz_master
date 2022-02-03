@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'gojira_questions'
+require 'questions'
 
 class QuizMaster
   def initialize(user_interface)
@@ -9,10 +9,10 @@ class QuizMaster
   end
 
   def run
-    total_questions = GojiraQestions::QUESTIONS.length
+    total_questions = Qestions::ALL.length
 
     ui.reset_screen
-    ui.intro(GojiraQestions::SUBJECT)
+    ui.intro(Qestions::SUBJECT)
     ask_all_questions
     ui.display_total_score(@user_score, total_questions)
     score_comment(total_questions)
@@ -32,12 +32,12 @@ class QuizMaster
   end
 
   def ask_all_questions
-    GojiraQestions::QUESTIONS.each_index do |index|
-      answer_choices = GojiraQestions::QUESTIONS[index][1]
-      correct_answer = GojiraQestions::QUESTIONS[index][2]
+    Qestions::ALL.each_index do |index|
+      answer_choices = Qestions::ALL[index][1]
+      correct_answer = Qestions::ALL[index][2]
 
       ui.reset_screen
-      user_answer = ask_question(GojiraQestions::QUESTIONS[index][0], answer_choices)
+      user_answer = ask_question(Qestions::ALL[index][0], answer_choices)
       ui.reset_screen
       ui.reveal_answer(answer_choices, correct_answer)
       conclued_result(user_answer, correct_answer)

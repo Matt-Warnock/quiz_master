@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'gojira_questions'
+require 'questions'
 require 'user_interface'
 
 RSpec.describe UserInterface do

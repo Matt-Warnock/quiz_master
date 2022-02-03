@@ -19,7 +19,7 @@ RSpec.describe QuizMaster do
       run_setup_with_input(input)
 
       expect(output.string).to include(QuizMessages::INTRODUCTION_MESSAGE_ONE +
-                                       GojiraQestions::SUBJECT +
+                                       Qestions::SUBJECT +
                                        QuizMessages::INTRODUCTION_MESSAGE_TWO)
     end
 
@@ -36,22 +36,22 @@ RSpec.describe QuizMaster do
 
       expect(output.string).to include(QuizMessages::CLEAR_COMMAND +
                                        QuizMessages::INTRODUCTION_HEADER +
-                                       GojiraQestions::QUESTIONS[0][0])
+                                       Qestions::ALL[0][0])
     end
 
     it 'asks user first question' do
       run_setup_with_input(input)
 
-      expect(output.string).to include(GojiraQestions::QUESTIONS[0][0])
+      expect(output.string).to include(Qestions::ALL[0][0])
     end
 
     it 'displays answer choices' do
       run_setup_with_input(input)
 
-      expect(output.string).to include(GojiraQestions::QUESTIONS[0][1][0],
-                                       GojiraQestions::QUESTIONS[0][1][1],
-                                       GojiraQestions::QUESTIONS[0][1][2],
-                                       GojiraQestions::QUESTIONS[0][1][3])
+      expect(output.string).to include(Qestions::ALL[0][1][0],
+                                       Qestions::ALL[0][1][1],
+                                       Qestions::ALL[0][1][2],
+                                       Qestions::ALL[0][1][3])
     end
 
     it 'clears screen then prints header before reveling correct answer' do
@@ -59,7 +59,7 @@ RSpec.describe QuizMaster do
 
       expect(output.string).to include(QuizMessages::CLEAR_COMMAND +
                                        QuizMessages::INTRODUCTION_HEADER,
-                                       "\e[0;34;49mc) #{GojiraQestions::QUESTIONS[0][1][2]}\e[0m")
+                                       "\e[0;34;49mc) #{Qestions::ALL[0][1][2]}\e[0m")
     end
 
     it 'displays a congratulatory message if user answer is correct' do
